@@ -1,6 +1,6 @@
 # Driver Station Dashboard Interface
 
-The driver station can be interfaced by dashboards in 2 different methods; Either TCP or WebSocket. Both methods use the same payload.
+The driver station can be interfaced by dashboards in 3 different methods; TCP, HTTP, or WebSocket. All methods use the same payload.
 
 ## Payload
 
@@ -23,3 +23,7 @@ The TCP transport is running on port 6770 on the DS. Only connections from local
 ### WebSocket
 
 The WebSocket can be accessed by connecting to `ws://localhost:6768/ipws` on the DS. Only connections from localhost will be accepted. Each message will come over as a `Text` message. The new line from the TCP message might be included, but can be discarded when using the WebSocket transport.
+
+### HTTP
+
+The HTTP GET function can be accessed at `http://localhost:6768/ip` on the DS. Only connections from localhost will be accepted. The GET response will the the JSON.
