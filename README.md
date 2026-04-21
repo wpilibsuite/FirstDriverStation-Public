@@ -30,3 +30,12 @@ Additionally, the app needs to be a part of the input group in order to have inp
 sudo chgrp input FirstDriverStation
 sudo chmod g+s FirstDriverStation
 ```
+
+Finally, for proper controller access, the current user needs access to hidraw. To do that, create a `/etc/udev/rules.d/72-hidraw.rules` containing
+
+```
+# Grant access to all hidraw devices for the active user
+KERNEL=="hidraw*", SUBSYSTEM=="hidraw", MODE="0660", TAG+="uaccess"
+```
+
+Then reload udev rules. `sudo udevadm control --reload-rules && sudo udevadm trigger`
