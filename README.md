@@ -5,6 +5,9 @@ This repository contains the public portions of the FIRST Driver Station. This w
 ## Installing
 The latest release contains the releases for all platforms. On macOS and Windows platforms, prefer the .pkg and .exe, as those are the installers for each platform. On linux, only archives are provided.
 
+[!WARNING]
+These installers are not to be uploaded to any public package repositories without permission of FIRST or WPILib.
+
 ## Per Platform Setup
 
 ### Windows
