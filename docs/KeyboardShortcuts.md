@@ -2,7 +2,7 @@
 
 The FIRST DS supports the following keyboard shortcuts. These shortcuts are monitored even when the app is in the background.
 
-- `Spacebar`: E-Stops the robot. This only will take affect if the robot is disabled.
+- `Spacebar`: E-Stops the robot. This only will take effect if the robot is enabled.
 - `Backspace`: A-Stops the robot. In match mode, this will disable the robot for the rest of autonomous. In auto mode, this will disable the robot.
 - `Enter`: Disables the robot. If in match mode, will stop the match. Otherwise will just disable the robot.
 - `[ + ] + \`: Enables the robot. In match mode, will start the match.
