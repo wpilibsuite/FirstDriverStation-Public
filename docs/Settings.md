@@ -10,6 +10,8 @@ The Driver Station stores its settings in `DriverStationSettings.json`.
 - **Windows**: `C:\Users\Public\Documents\FIRSTDriverStation\DriverStationSettings.json`
 - **Unix (Linux/macOS)**: `~/.firstds/DriverStationSettings.json`
 
+The current settings file can also be downloaded and viewed in the overrides page served by the DS at [http://localhost:6768/overrides.html](http://localhost:6768/overrides.html) (while the DS is running).
+
 ## Example
 
 ```json
