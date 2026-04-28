@@ -22,6 +22,8 @@ Place a file named `VidPidIgnoreList.json` in the DS configuration directory:
 
 The file will be loaded automatically each time the Driver Station starts.
 
+> **Tip:** The ignore list can also be created and edited through the DS overrides webpage at `http://localhost:6768/overrides.html` (accessible while the Driver Station is running).
+
 ## File Format
 
 The file must contain a valid JSON object with up to two optional keys:
