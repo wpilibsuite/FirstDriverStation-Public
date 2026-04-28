@@ -16,8 +16,8 @@ The file is a JSON object with two optional top-level keys: `CustomDashboards` a
 ```json
 {
   "CustomDashboards": [
-    { "Name": "CoolDash1", "Executable": "C:\\Dashboards\\CoolDash1App" },
-    { "Name": "ExtraDash", "Executable": "C:\\Dashboards\\ExtraDashApp" }
+    { "Name": "CoolDash1", "Executable": "C:\\Dashboards\\InsertAppNameHere" },
+    { "Name": "ExtraDash", "Executable": "C:\\Dashboards\\InsertAppNameHere" }
   ],
   "DashboardYearOverrides": [
     { "DashboardYearToOverride": "2027_alpha5", "DashboardOverrideYear": "2027_alpha6" }
@@ -36,9 +36,13 @@ The file is a JSON object with two optional top-level keys: `CustomDashboards` a
 
 ### DashboardYearOverrides
 
-`DashboardYearOverrides` is an array of WPILib year overrides that redirect the DS when looking up default dashboards for a given year. Each entry has the following fields:
+By default, the DS looks for dashboards (such as SmartDashboard, Shuffleboard, and Glass) installed in the WPILib folder for the current year (e.g. `C:\Users\Public\wpilib\2027`). Each WPILib release installs dashboards into its own per-year folder.
 
-| Field                    | Type   | Description                                                   |
-|--------------------------|--------|---------------------------------------------------------------|
-| `DashboardYearToOverride`| string | The WPILib year string whose dashboard location is overridden. |
-| `DashboardOverrideYear`  | string | The WPILib year string to use instead when locating dashboards.|
+`DashboardYearOverrides` lets you redirect the DS to look in a different year's WPILib folder for a specific year's dashboards. This is useful during pre-release periods — for example, when a new alpha or beta WPILib version ships dashboards under a new folder name, you can redirect the DS to find them there without waiting for an official DS update. It also prevents the override from accidentally applying to future DS versions that already point to the correct, updated folder.
+
+Each entry has the following fields:
+
+| Field                     | Type   | Description                                                                                        |
+|---------------------------|--------|----------------------------------------------------------------------------------------------------|
+| `DashboardYearToOverride` | string | The WPILib year string that the DS would normally use when looking for dashboards.                 |
+| `DashboardOverrideYear`   | string | The WPILib year string to use instead, pointing the DS to that year's WPILib installation folder.  |
