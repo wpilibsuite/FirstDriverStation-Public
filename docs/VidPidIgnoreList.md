@@ -2,6 +2,13 @@
 
 The FIRST Driver Station allows you to exclude specific USB devices from being detected as joysticks/gamepads. This is useful for keyboards, mice, or other HID devices that the DS picks up as joystick inputs.
 
+Every USB device is identified by two 16-bit numbers assigned by the USB Implementers Forum:
+
+- **VID (Vendor ID)**: Identifies the manufacturer of the device (e.g., `05AC` is Apple).
+- **PID (Product ID)**: Identifies the specific product from that manufacturer (e.g., `E3D8` for a particular keyboard model).
+
+Together, a VID + PID pair uniquely identifies a specific product from a specific vendor.
+
 ## File Location
 
 Place a file named `VidPidIgnoreList.json` in the DS configuration directory:
