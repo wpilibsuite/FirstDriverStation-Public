@@ -9,6 +9,8 @@ Place the file in the DS configuration directory:
 - **Windows**: `C:\Users\Public\Documents\FIRSTDriverStation\DriverStationDashboardSettings.json`
 - **Unix (Linux/macOS)**: `~/.firstds/DriverStationDashboardSettings.json`
 
+> **Tip:** While the DS is running, you can also create and edit this file through the built-in overrides UI at [http://localhost:6768/overrides.html](http://localhost:6768/overrides.html).
+
 ## Configuration
 
 The file is a JSON object with two optional top-level keys: `CustomDashboards` and `DashboardYearOverrides`.
