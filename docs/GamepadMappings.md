@@ -19,7 +19,7 @@ Each line in the file defines a mapping for one controller in SDL's gamepad mapp
 <GUID>,<name>,<mapping entries>
 ```
 
-- **GUID**: The SDL GUID for the controller (a 32-character hex string). You can find your controller's GUID using tools such as `sdl2-jstest` on Linux or the SDL2 gamepad tool.
+- **GUID**: The SDL3 GUID for the controller (a 32-character hex string). You can find your controller's GUID by right-clicking on the gamepad in the DS.
 - **name**: A human-readable name for the controller.
 - **mapping entries**: A comma-separated list of `<button/axis>:<input>` pairs.
 
@@ -31,9 +31,8 @@ Each line in the file defines a mapping for one controller in SDL's gamepad mapp
 
 ## Further Reading
 
-For full details on the SDL gamepad mapping format, see the official SDL documentation:
+For full details on the SDL gamepad mapping format, see the official SDL3 documentation:
 
 - [SDL_AddGamepadMappingsFromFile (SDL3)](https://wiki.libsdl.org/SDL3/SDL_AddGamepadMappingsFromFile)
-- [SDL_GameControllerAddMappingsFromFile (SDL2)](https://wiki.libsdl.org/SDL2/SDL_GameControllerAddMappingsFromFile)
 
 A community database of controller mappings is also available at [https://github.com/gabomdq/SDL_GameControllerDB](https://github.com/gabomdq/SDL_GameControllerDB), which can be a useful starting point for finding or contributing mappings for your controller.
