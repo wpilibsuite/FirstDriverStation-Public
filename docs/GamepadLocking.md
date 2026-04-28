@@ -20,4 +20,4 @@ Whether locking works reliably depends on whether the gamepad is *uniquely ident
 |---|---|
 | Uniquely identifiable gamepad | Always assigned to the correct locked slot |
 | Only one gamepad of its type connected (non-unique) | Assigned to the correct locked slot |
-| Multiple gamepads of the same type connected (non-unique) | Slot assignment order is random |
+| Multiple gamepads of the same type connected (non-unique) | Slot assignment order is random between locked slots |
