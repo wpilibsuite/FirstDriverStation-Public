@@ -144,7 +144,7 @@ The dashboard application to launch alongside the DS. A value of `0` means no ex
 
 **Type**: string
 
-A short string of game-specific data that is sent to the robot at the start of a match. The robot program can read this value to configure itself for a specific game variant. For details on how to read game data in your robot program, see the [WPILib documentation](https://docs.wpilib.org). The format and meaning of the game data string is defined by the game rules for each season.
+A short string of game-specific data that is sent to the robot during the match. The robot program can read this value to configure itself for a specific game variant. For details on how to read game data in your robot program, see the [WPILib documentation](https://docs.wpilib.org). The format and meaning of the game data string is defined by the game rules for each season.
 
 ### `DisableSounds`
 
