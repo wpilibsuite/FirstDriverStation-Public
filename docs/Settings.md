@@ -138,21 +138,13 @@ Controls how the DS window is displayed. Valid values are:
 
 **Type**: integer
 
-The dashboard application to launch alongside the DS. Valid values are:
-
-| Value | Dashboard |
-|---|---|
-| `0` | Default (no external dashboard) |
-| `1` | SmartDashboard |
-| `2` | Shuffleboard |
-| `3` | FRC Dashboard |
-| `4` | LabVIEW Dashboard |
+The dashboard application to launch alongside the DS. A value of `0` means no external dashboard is launched. All other values are assigned by the DS UI and are not defined here.
 
 ### `GameData`
 
 **Type**: string
 
-A short string of game-specific data that is sent to the robot at the start of a match. The robot program can read this value to configure itself for a specific game variant.
+A short string of game-specific data that is sent to the robot at the start of a match. The robot program can read this value to configure itself for a specific game variant. For details on how to read game data in your robot program, see the [WPILib documentation](https://docs.wpilib.org). The format and meaning of the game data string is defined by the game rules for each season.
 
 ### `DisableSounds`
 
