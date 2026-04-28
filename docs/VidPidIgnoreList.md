@@ -11,7 +11,7 @@ Together, a VID + PID pair uniquely identifies a specific product from a specifi
 
 ## Finding a Device's VID and PID
 
-You can look up the VID and PID of any connected USB device directly in the Driver Station. In the **USB** tab (gamepad view), right-click on the device and the VID and PID will be displayed.
+You can look up the VID and PID of any connected USB device directly in the Driver Station. In the  gamepad view, right-click on the device and the VID and PID will be displayed.
 
 ## File Location
 
