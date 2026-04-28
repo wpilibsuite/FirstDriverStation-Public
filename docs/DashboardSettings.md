@@ -16,8 +16,8 @@ The file is a JSON object with two optional top-level keys: `CustomDashboards` a
 ```json
 {
   "CustomDashboards": [
-    { "Name": "CoolDash1", "Executable": "C:\\Dashboards\\InsertAppNameHere" },
-    { "Name": "ExtraDash", "Executable": "C:\\Dashboards\\InsertAppNameHere" }
+    { "Name": "CoolDash1", "Executable": "C:\\Dashboards\\CoolDash1.exe" },
+    { "Name": "ExtraDash", "Executable": "C:\\Dashboards\\ExtraDash.exe" }
   ],
   "DashboardYearOverrides": [
     { "DashboardYearToOverride": "2027_alpha5", "DashboardOverrideYear": "2027_alpha6" }
@@ -36,7 +36,7 @@ The file is a JSON object with two optional top-level keys: `CustomDashboards` a
 
 ### DashboardYearOverrides
 
-By default, the DS looks for dashboards (such as SmartDashboard, Shuffleboard, and Glass) installed in the WPILib folder for the current year (e.g. `C:\Users\Public\wpilib\2027`). Each WPILib release installs dashboards into its own per-year folder.
+By default, the DS looks for dashboards (such as Elastic) installed in the WPILib folder for the current year (e.g. `C:\Users\Public\wpilib\2027`). Each WPILib release installs dashboards into its own per-year folder. You can find the current dashboard year right above the dashboard selector on the settings page.
 
 `DashboardYearOverrides` lets you redirect the DS to look in a different year's WPILib folder for a specific year's dashboards. This is useful during pre-release periods — for example, when a new alpha or beta WPILib version ships dashboards under a new folder name, you can redirect the DS to find them there without waiting for an official DS update. It also prevents the override from accidentally applying to future DS versions that already point to the correct, updated folder.
 
