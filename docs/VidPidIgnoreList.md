@@ -9,6 +9,10 @@ Every USB device is identified by two 16-bit numbers assigned by the USB Impleme
 
 Together, a VID + PID pair uniquely identifies a specific product from a specific vendor.
 
+## Finding a Device's VID and PID
+
+You can look up the VID and PID of any connected USB device directly in the Driver Station. In the **USB** tab (gamepad view), right-click on the device and the VID and PID will be displayed.
+
 ## File Location
 
 Place a file named `VidPidIgnoreList.json` in the DS configuration directory:
