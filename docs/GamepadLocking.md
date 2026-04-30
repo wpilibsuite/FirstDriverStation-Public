@@ -8,7 +8,7 @@ Check the **Locked** checkbox next to the joystick slot where you want to keep t
 
 ## Unique vs. Non-Unique Gamepads
 
-Whether locking works reliably depends on whether the gamepad is *uniquely identifiable*.
+Whether locking works reliably depends on whether the gamepad is **uniquely identifiable**.
 
 - **Uniquely identifiable gamepad**: The DS can tell it apart from all other connected controllers (for example, because it has a unique serial number). If a gamepad is uniquely identifiable, a **fingerprint icon** will appear next to the Locked checkbox. For these gamepads, the correct slot assignment is guaranteed—even if multiple controllers of the same model are connected at the same time.
 
