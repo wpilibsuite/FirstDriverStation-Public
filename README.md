@@ -14,11 +14,13 @@ The latest release contains the releases for all platforms. On macOS and Windows
 On Windows, the app has everything configured by default. Just run the installer, and then run the application.
 
 ### macOS
-There are 2 permissions that macOS requires. It requires Input Monitoring and Local Network access. You will get 2 popups for this, and they must be accepted in order to work. The first time you start up the app, these prompts will cause the launch to fail, and you'll need to accept the Input Monitoring prompt, and then restart the app. Then you'll be able to accept the Local Network permission.
+There are several permissions that macOS requires. It requires Input Monitoring and Local Network access. You will get 2 popups for this, and they must be accepted in order to work. The first time you start up the app, these prompts will cause the launch to fail, and you'll need to accept the Input Monitoring prompt, and then restart the app. Then you'll be able to accept the Local Network permission.
 
 If Local Network access is declined, the app will still seem to function normally, as Apple does not provide a way to detect if the permission has been granted.
 
-If you decline either of these, you can fix the settings in the `Privacy & Security` tab of System Settings.
+macOS will also prompt with **"FirstDriverStation" would like to access data from other apps.** This permission is required for launching dashboards and for log file writing. You should click **Allow** when this prompt appears.
+
+If you decline any of these, you can fix the settings in the `Privacy & Security` tab of System Settings.
 
 ### Linux
 The following packages must be installed in order for linux to work.
