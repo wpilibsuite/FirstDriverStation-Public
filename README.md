@@ -14,7 +14,7 @@ The latest release contains the releases for all platforms. On macOS and Windows
 On Windows, the app has everything configured by default. Just run the installer, and then run the application.
 
 ### macOS
-There are several permissions that macOS requires. It requires Input Monitoring and Local Network access. You will get 2 popups for this, and they must be accepted in order to work. The first time you start up the app, these prompts will cause the launch to fail, and you'll need to accept the Input Monitoring prompt, and then restart the app. Then you'll be able to accept the Local Network permission.
+There are 3 permissions that macOS requires. It requires Input Monitoring, Local Network access, and data access from other apps. You will get popups for these, and they must be accepted in order to work. The first time you start up the app, these prompts will cause the launch to fail, and you'll need to accept the Input Monitoring prompt, and then restart the app. Then you'll be able to accept the Local Network permission.
 
 If Local Network access is declined, the app will still seem to function normally, as Apple does not provide a way to detect if the permission has been granted.
 
