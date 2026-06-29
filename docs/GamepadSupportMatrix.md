@@ -23,7 +23,7 @@ The FIRST Driver Station uses SDL for gamepad support. Most common gamepads work
 | Nintendo NSO N64 | `057E:2019` | ✅ | ✅ | ✅ | ✅ | Mappings are odd due to the awkward button layout. |
 | Nintendo NSO GameCube | `057E:2073` | ✅ | ❌ | ✅ | ✅ |  |
 | Wii U GameCube Adapter (WUP-028) |  | ⚠️ | ❌ | ✅ | ❌ | On Windows, the driver needs to be changed manually to WinUSB using Zadig. Each on-device port can be used. In the DS, it will show as having an SN, however that is for the whole device, not the individual controllers. |
-| Steam Controller 2026 | `28DE:1106` | ✅ | ❌ | ✅ | ✅ | Does not enumerate on Linux |
+| Steam Controller 2026 | `28DE:1106` | ✅ | ❌ | ✅ | ✅ | Does not enumerate on macOS |
 | REV USB PS4 Compatible |  | ⚠️ | ✅ | ✅ | ❌ | Shows up as a generic Xbox controller on Windows, missing much of the functionality. |
 | Logitech F310 |  | ✅ | ✅ | ✅ | ❌ | Must be in D mode to show up correctly on macOS. |
 | PowerA Advantage Switch 2 | `20D6:A720` | ⚠️ | ⚠️ | ⚠️ | ❌ | Shows up as a joystick without gamepad mappings. |
