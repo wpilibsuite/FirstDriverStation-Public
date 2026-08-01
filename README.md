@@ -2,6 +2,11 @@
 
 This repository contains the public portions of the FIRST Driver Station. This will include releases, along with public issue tracking.
 
+## Notes
+
+> [!WARNING]
+> FIRST Driver Station is not supported on any current FIRST FMS. DS Alpha 6 can be supported on development versions of Cheesy Arena, but this support is considered experimental.
+
 ## Installing
 The latest release contains the releases for all platforms. On macOS and Windows platforms, prefer the .pkg and .exe, as those are the installers for each platform. On linux, only archives are provided.
 
