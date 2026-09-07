@@ -1,17 +1,17 @@
-# FIRST Driver Station - Public
+# *FIRST*® Driver Station - Releases & Issue Tracking
 
 This repository contains the public portions of the FIRST Driver Station. This will include releases, along with public issue tracking.
 
 ## Notes
 
 > [!WARNING]
-> FIRST Driver Station is not supported on any current FIRST FMS. DS Alpha 6 can be supported on development versions of Cheesy Arena, but this support is considered experimental.
+> FIRST Driver Station is not supported on any current FIRST FMS. DS Alpha 7 can be supported on development versions of Cheesy Arena, but this support is considered experimental.
 
 ## Installing
-The latest release contains the releases for all platforms. On macOS and Windows platforms, prefer the .pkg and .exe, as those are the installers for each platform. On linux, only archives are provided.
+The [latest release](https://github.com/wpilibsuite/FirstDriverStation-Public/releases/latest) contains the releases for all platforms. On macOS and Windows platforms, prefer the .pkg and .exe, as those are the installers for each platform. On Linux, only archives are provided.
 
 > [!WARNING]
-> These installers are not to be uploaded to any public package repositories without permission of FIRST or WPILib.
+> These installers are not to be uploaded to any public package repositories without permission of *FIRST*® or WPILib.
 
 ## Per Platform Setup
 
@@ -30,24 +30,29 @@ If you decline any of these, you can fix the settings in the `Privacy & Security
 If Local Network access still does not work after re-enabling it there, see [macOS Permissions](docs/macOSPermissions.md) for a terminal-based workaround.
 
 ### Linux
-The following packages must be installed in order for linux to work.
+
+> [!WARNING]
+> Due to missing functionality in Wayland itself, docked mode is not supported when running with the native Wayland backend.
+
+The following packages must be installed in order for Linux to work.
 
 ```
 TODO
 ```
 
-Additionally, the app needs to be a part of the input group in order to have input access. That can be done with the following commands.
-
-```
+Additionally, the app needs to be a part of the input group in order to have input access. That can be done with the following commands:
+```sh
 sudo chgrp input FirstDriverStation
 sudo chmod g+s FirstDriverStation
 ```
 
-Finally, for proper controller access, the current user needs access to hidraw. To do that, create a `/etc/udev/rules.d/72-hidraw.rules` containing
-
+Finally, for proper controller access, the current user needs access to `hidraw`. To do that, create a `/etc/udev/rules.d/72-hidraw.rules` containing:
 ```
 # Grant access to all hidraw devices for the active user
 KERNEL=="hidraw*", SUBSYSTEM=="hidraw", MODE="0660", TAG+="uaccess"
 ```
 
-Then reload udev rules. `sudo udevadm control --reload-rules && sudo udevadm trigger`
+Then reload the `udev` rules:
+```sh
+sudo udevadm control --reload-rules && sudo udevadm trigger
+```
