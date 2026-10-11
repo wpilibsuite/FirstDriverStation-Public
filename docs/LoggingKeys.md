@@ -2,7 +2,7 @@
 
 This document describes the NT keys used for Driver Station logging. In Driver Station logs, NetworkTables entries are written with the `DS:` log prefix, so the topic `/Dscomm/Status/Power/Battery` appears in the log as `DS:/Dscomm/Status/Power/Battery`.
 
-This document is scoped to DS comms: the C# Driver Station NetworkTables bridge and the native `DsServer` side. A local forwarding server mirrors the Driver Station instance on port `6767` for tools such as AdvantageScope.
+Topic names are case-sensitive. A local NetworkTables server on port `6767` exposes these values for live log viewers such as AdvantageScope. Protobuf schemas are available through NetworkTables to decode raw payloads.
 
 ## Payload Notes
 
@@ -39,8 +39,6 @@ Several topics use protobuf payloads. They appear as raw NetworkTables values, b
 
 ### `/Dscomm/Control/Robot`
 
-These topics are published by the Driver Station UI and consumed by the native Driver Station communication layer.
-
 | Key | Type | Description |
 |---|---|---|
 | `/Dscomm/Control/Robot/ControlData` | `mrc.proto.ProtobufControlData` | Main DS-to-robot control packet. Published every control update, including duplicate values. |
@@ -56,28 +54,27 @@ These topics are published by the Driver Station UI and consumed by the native D
 | `/Dscomm/Control/Settings/RequireTeamNumberMatch` | Boolean | Whether robot connections must match the configured team number. |
 | `/Dscomm/Control/Settings/UseWiFiStaticAddress` | Boolean | Whether to use the robot Wi-Fi static-address behavior. |
 | `/Dscomm/Control/Settings/TimeZone` | String | Local DS time zone as an IANA time-zone ID, for example `America/New_York`. Falls back to `UTC`. |
-| `/Dscomm/Control/Settings/DockedHeight` | Integer | Docked Driver Station window height. Subscribed by the native backend. |
+| `/Dscomm/Control/Settings/DockedHeight` | Integer | Docked Driver Station window height. This key may be absent from logs; dashboard docked height is also available through the dashboard interface. |
 
 ### `/Dscomm/Control/Requests`
 
-Request values are monotonically incremented by the UI so repeated requests remain observable.
+Integer request values are incrementing counters so repeated requests remain observable; the value is not a request argument. `ResetEStop` is a Boolean reset signal instead.
 
 | Key | Type | Description |
 |---|---|---|
 | `/Dscomm/Control/Requests/RebootRobot` | Integer | User requested robot reboot. |
 | `/Dscomm/Control/Requests/RestartRobotCode` | Integer | User requested robot-code restart. |
+| `/Dscomm/Control/Requests/StopRobotCode` | Integer | User requested robot-code stop. |
 | `/Dscomm/Control/Requests/ResetEStop` | Boolean | User requested E-stop reset. |
 | `/Dscomm/Control/Requests/NewVersionRequest` | Integer | User requested robot version information. |
 
 ### `/Dscomm/Status/Connection`
 
-These topics are published by the native Driver Station communication layer.
-
 | Key | Type | Description |
 |---|---|---|
 | `/Dscomm/Status/Connection/UdpConnAddr` | Integer | Robot UDP connection address. `0` means disconnected; nonzero is the robot IP address as an integer. |
 | `/Dscomm/Status/Connection/HasTcpConn` | Boolean | Whether the TCP robot connection is active. |
-| `/Dscomm/Status/Connection/FmsTimes` | Integer | Packed FMS timing summary: sent packet count, lost packet count, and trip time in milliseconds. |
+| `/Dscomm/Status/Connection/FmsTimes` | Integer | Packed FMS timing summary: bits 0-7 are trip time in milliseconds, bits 8-23 are lost packet count, and bits 24-39 are sent packet count. |
 
 ### `/Dscomm/Status/Robot`
 
@@ -86,7 +83,7 @@ These topics are published by the native Driver Station communication layer.
 | `/Dscomm/Status/Robot/HasUserCode` | Boolean | Whether robot code is present/running. |
 | `/Dscomm/Status/Robot/HasUserCodeReady` | Boolean | Whether robot code has reported that it is ready. |
 | `/Dscomm/Status/Robot/RequestDisable` | Boolean | Robot requested that the DS disable it. |
-| `/Dscomm/Status/Robot/StatusWord` | Integer | Robot status word. Bits 0-7 are the robot status byte, bit 8 is OnBot override active, and bit 9 is OnBot override enabled. |
+| `/Dscomm/Status/Robot/StatusWord` | Integer | Packed robot-reported status; see the bit layout below. This is distinct from the DS-requested `control_word` and the displayed `RobotState`. |
 | `/Dscomm/Status/Robot/CurrentOpModeTrace` | Integer | Robot-reported current op-mode trace. Published every loop, including duplicates. |
 | `/Dscomm/Status/Robot/RobotUpTime` | Double | Robot system uptime in seconds. |
 | `/Dscomm/Status/Robot/RobotCodeUpTime` | Double | Robot-code uptime in seconds. |
@@ -94,6 +91,25 @@ These topics are published by the native Driver Station communication layer.
 | `/Dscomm/Status/Robot/IsUsb` | Boolean | Whether the connection is over USB. |
 | `/Dscomm/Status/Robot/WatchdogNotFed` | Boolean | Whether the robot watchdog was not fed. |
 | `/Dscomm/Status/Robot/ControlDataNotUpdating` | Boolean | Whether robot control data is not updating. |
+
+#### `StatusWord` bit layout
+
+Decode `/Dscomm/Status/Robot/StatusWord` with masks, not as an enum. Bits 0-7 contain the robot status byte; bits 8-9 contain the OnBot override flags.
+
+| Bits | Mask | Meaning |
+|---|---|---|
+| 0-1 | `0x003` | Robot mode: `0` unknown, `1` autonomous, `2` teleoperated, `3` utility. |
+| 2 | `0x004` | Robot reports enabled. |
+| 3 | `0x008` | Program-start flag (`ProgStart`). |
+| 4 | `0x010` | Brownout prevention active. |
+| 5 | `0x020` | High-voltage battery. |
+| 6 | `0x040` | Unassigned by the current protocol. |
+| 7 | `0x080` | Robot reports E-stop. |
+| 8 | `0x100` | OnBot override active. |
+| 9 | `0x200` | OnBot override enabled. |
+| 10-15 | | Unassigned by the current protocol. |
+
+For example, `(value & 0x004) != 0` reads enabled, and `(value & 0x003) == 1` reads autonomous. A-stop has no bit in this word. `StatusWord` resets to `0` on robot disconnect; check connection topics when interpreting it.
 
 ### `/Dscomm/Status/Timing`
 
@@ -106,9 +122,9 @@ These topics are published by the native Driver Station communication layer.
 | `/Dscomm/Status/Timing/UiLoopDelta` | Integer | UI loop period/delta in microseconds. |
 | `/Dscomm/Status/Timing/UiLoopTime` | Integer | UI loop runtime in microseconds. |
 | `/Dscomm/Status/Timing/PacketTime` | Integer | Last packet timing sample in microseconds. |
-| `/Dscomm/Status/Timing/Rtt` | Integer | Robot communication round-trip time. Defaults to the maximum unsigned 64-bit value until measured. |
-| `/Dscomm/Status/Timing/DirectRtt` | Integer | Direct round-trip time measurement. |
-| `/Dscomm/Status/Timing/ComputedDelay` | Integer | Computed communication delay. |
+| `/Dscomm/Status/Timing/Rtt` | Integer | Minimum observed timesync round-trip time in microseconds for the current connection. The unsigned all-ones sentinel is exposed as `-1` in the signed NT integer until measured and on disconnect. |
+| `/Dscomm/Status/Timing/DirectRtt` | Integer | Latest matching timesync round-trip time measurement in microseconds. |
+| `/Dscomm/Status/Timing/ComputedDelay` | Integer | Robot-reported computed communication delay in microseconds (signed). |
 
 ### `/Dscomm/Status/Power`
 
@@ -124,13 +140,13 @@ These topics are published by the native Driver Station communication layer.
 | `/Dscomm/Status/Resources/CPU` | Double | Robot CPU utilization percentage. |
 | `/Dscomm/Status/Resources/FreeMemory` | Integer | Robot free memory in bytes. |
 | `/Dscomm/Status/Resources/FreeStorage` | Integer | Robot free storage in bytes. |
-| `/Dscomm/Status/Resources/CanBusUtilizations` | Float Array | CAN bus utilization percentages. The DS UI currently reads up to five values. |
+| `/Dscomm/Status/Resources/CanBusUtilizations` | Float Array | CAN bus utilization percentages. |
 
 ### `/Dscomm/Status/Network`
 
 | Key | Type | Description |
 |---|---|---|
-| `/Dscomm/Status/Network/UdpErrorCode` | Integer | Packed UDP error data: low byte packet index, next byte packet index high, next byte error code. |
+| `/Dscomm/Status/Network/UdpErrorCode` | Integer | Packed UDP error data: bits 0-15 are the packet index (low byte first), bits 16-23 are the error code. Decode the code with `(value >> 16) & 0xFF`. |
 | `/Dscomm/Status/Network/UdpSendErrorCode` | Integer | Latest UDP send error code. |
 | `/Dscomm/Status/Network/OptimizedWlanError` | Integer | Latest optimized WLAN error code. |
 
@@ -143,13 +159,61 @@ These topics are published by the native Driver Station communication layer.
 
 ### `/Dscomm/Status/DriverStation`
 
-These topics are published by the Driver Station UI.
-
 | Key | Type | Description |
 |---|---|---|
 | `/Dscomm/Status/DriverStation/DsCpuUtilization` | Double | DS computer CPU utilization percentage. |
 | `/Dscomm/Status/DriverStation/DsMemoryUtilization` | Double | DS computer memory utilization percentage. |
 | `/Dscomm/Status/DriverStation/DsBattery` | Integer | DS computer battery percentage, or `-1` when not available. |
+| `/Dscomm/Status/DriverStation/RobotState` | Integer | Robot state shown in the DS status area; see the values below. Published initially and when the state changes. |
+
+#### `RobotState` values
+
+These values describe the displayed Driver Station state, including connection, selection, and match conditions. They are separate from the robot-reported `StatusWord`.
+
+| Value | State |
+|---|---|
+| 0 | `PressSpacebar` |
+| 1 | `RequestingFmsLite` |
+| 2 | `NoRadioConnection` |
+| 3 | `NoRobotConnection` |
+| 4 | `NoRobotCommunication` |
+| 5 | `UdpError` |
+| 6 | `NoRobotCode` |
+| 7 | `OnBotOverrideEnabledDsEnabled` |
+| 8 | `OnBotOverrideEnabledDsDisabled` |
+| 9 | `OnBotOverrideEnabledDsEStopped` |
+| 10 | `OnBotOverrideDisabledDsEnabled` |
+| 11 | `OnBotOverrideDisabledDsDisabled` |
+| 12 | `OnBotOverrideDisabledDsEStopped` |
+| 13 | `OnBotOverrideUtilityEnabledDsEnabled` |
+| 14 | `OnBotOverrideUtilityEnabledDsDisabled` |
+| 15 | `OnBotOverrideUtilityDisabledDsEnabled` |
+| 16 | `OnBotOverrideUtilityDisabledDsDisabled` |
+| 17 | `WaitingForRobotCode` |
+| 18 | `WaitingForOpModes` |
+| 19 | `HeadRefEStopped` |
+| 20 | `EmergencyStopped` |
+| 21 | `RobotShowingEmergencyStopped` |
+| 22 | `BrownedOut` |
+| 23 | `WatchdogNotFed` |
+| 24 | `SelectOpModes` |
+| 25 | `SelectMatchTimes` |
+| 26 | `SelectUtilityOpMode` |
+| 27 | `SelectAutoOpMode` |
+| 28 | `SelectTeleopOpMode` |
+| 29 | `UnknownState` |
+| 30 | `TeleoperatedEnabled` |
+| 31 | `TeleoperatedDisabled` |
+| 32 | `TeleoperatedCountdown` |
+| 33 | `TeleoperatedWaiting` |
+| 34 | `AutonomousEnabled` |
+| 35 | `AutonomousDisabled` |
+| 36 | `AutonomousBypassed` |
+| 37 | `AutonomousCountdown` |
+| 38 | `AutonomousStopped` |
+| 39 | `UtilityEnabled` |
+| 40 | `UtilityDisabled` |
+| 41 | `UtilityCountdown` |
 
 ### `/Dscomm/Status/DriverStation/GarbageCollection`
 
@@ -182,8 +246,6 @@ These topics are published by the Driver Station UI.
 
 ### `/Dscomm/Keyboard`
 
-These topics are published by the native keyboard/input layer and consumed by the Driver Station UI. They are published with duplicate values preserved.
-
 | Key | Type | Description |
 |---|---|---|
 | `/Dscomm/Keyboard/LostKeyboardPermissions` | Boolean | Indicates that keyboard permissions were lost and the DS should exit or request permissions. |
@@ -198,7 +260,7 @@ These topics are published by the native keyboard/input layer and consumed by th
 
 | Key | Type | Description |
 |---|---|---|
-| `/Dscomm/Modes/OpModeOptions` | `mrc.proto.ProtobufAvailableOpModes` | All available robot op modes. The DS separates them into autonomous, teleoperated, and utility modes by each mode's hash metadata. |
+| `/Dscomm/Modes/OpModeOptions` | `mrc.proto.ProtobufAvailableOpModes` | All available robot op modes. Each mode's hash metadata identifies it as autonomous, teleoperated, or utility. |
 
 ### `/Dscomm/Alerts`
 

@@ -1,6 +1,6 @@
 # Logging
 
-The DS logs into the wpilog format.
+The DS logs into the wpilog format. See [Logging Keys](LoggingKeys.md) for the NetworkTables log key reference, payload types, packed status bits, and displayed robot state values.
 
 You can use the webpage to grab log files, otherwise they are located in the `~/.firstds` folder on unix platforms or `Public Documents/firstds` on Windows.
 
